@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Kairo Control</title>
+
+<style>
+:root {
+  --bg: #05080d;
+  --panel: rgba(255,255,255,0.075);
+  --panel-soft: rgba(255,255,255,0.045);
+  --text: #f8fafc;
+  --muted: #9aa7b8;
+  --line: rgba(255,255,255,0.09);
+  --green: #22c55e;
+  --green-dark: #15803d;
+  --yellow: #facc15;
+  --danger: rgba(255,255,255,0.12);
+}
+
+* {
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: transparent;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background:
+    radial-gradient(circle at 80% -10%, rgba(34,197,94,.22), transparent 34%),
+    radial-gradient(circle at 10% 0%, rgba(250,204,21,.12), transparent 32%),
+    linear-gradient(180deg, #08111d 0%, var(--bg) 55%);
+  color: var(--text);
+  padding: 18px;
+}
+
+.app {
+  max-width: 520px;
+  margin: 0 auto;
+}
+
+.header {
+  padding: 6px 2px 18px;
+  text-align: center; /* 👈 CENTRALIZADO */
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .8px;
+  color: var(--yellow);
+  border: 1px solid rgba(250,204,21,.28);
+  background: rgba(250,204,21,.07);
+  padding: 6px 10px;
+  border-radius: 999px;
+  margin-bottom: 12px;
+}
+
+h1 {
+  margin: 0;
+  font-size: 30px;
+  font-weight: 850;
+  letter-spacing: -1.1px;
+}
+
+.sub {
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.panel {
+  background: linear-gradient(180deg, var(--panel), var(--panel-soft));
+  border: 1px solid var(--line);
+  border-radius: 28px;
+  padding: 8px 14px;
+  box-shadow:
+    0 24px 70px rgba(0,0,0,.45),
+    inset 0 1px 0 rgba(255,255,255,.06);
+  backdrop-filter: blur(22px);
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 1fr 52px 88px;
+  gap: 10px;
+  align-items: center;
+  padding: 15px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.row:last-child {
+  border-bottom: none;
+}
+
+.info {
+  min-width: 0;
+}
+
+.name {
+  font-size: 15px;
+  font-weight: 750;
+  letter-spacing: -0.25px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.meta {
+  margin-top: 5px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.progress {
+  margin-top: 9px;
+  height: 5px;
+  width: 100%;
+  background: rgba(255,255,255,.09);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--yellow), #fde047);
+  border-radius: 999px;
+  transition: width .25s ease;
+}
+
+.count {
+  text-align: center;
+  font-size: 25px;
+  font-weight: 850;
+  letter-spacing: -1px;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+button {
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: 15px;
+  color: #fff;
+  font-size: 21px;
+  font-weight: 850;
+  cursor: pointer;
+  transition: transform .12s ease, filter .12s ease;
+}
+
+button:active {
+  transform: scale(.91);
+}
+
+.minus {
+  background: var(--danger);
+  color: #cbd5e1;
+}
+
+.plus {
+  background: linear-gradient(135deg, var(--green), var(--green-dark));
+  box-shadow: 0 8px 18px rgba(34,197,94,.24);
+}
+
+.row.done {
+  margin: 4px -6px;
+  padding: 15px 6px;
+  border-radius: 20px;
+  background: rgba(34,197,94,.075);
+  border-bottom: 1px solid transparent;
+}
+
+.row.done .bar {
+  background: linear-gradient(90deg, var(--green), #86efac);
+}
+
+.row.done .name::after {
+  content: "  ✓";
+  color: var(--green);
+}
+
+.footer {
+  margin-top: 14px;
+  color: rgba(154,167,184,.75);
+  font-size: 11px;
+  text-align: center;
+}
+
+@media (max-width: 390px) {
+  body {
+    padding: 14px;
+  }
+
+  h1 {
+    font-size: 27px;
+  }
+
+  .panel {
+    padding: 6px 12px;
+  }
+
+  .row {
+    grid-template-columns: 1fr 46px 82px;
+    gap: 8px;
+  }
+
+  .name {
+    font-size: 14px;
+  }
+
+  .count {
+    font-size: 23px;
+  }
+
+  button {
+    width: 37px;
+    height: 37px;
+    border-radius: 14px;
+  }
+}
+</style>
+</head>
+
+<body>
+<div class="app">
+  <div class="header">
+    <div class="badge">● ACOMPANHAMENTO PARALELO</div>
+    <h1>Kairo Control</h1>
+    <div class="sub">Controle rápido de fotos por campanha</div>
+  </div>
+
+  <div class="panel" id="app"></div>
+
+  <div class="footer">
+    Dados salvos automaticamente neste aparelho
+  </div>
+</div>
+
+<script>
+const STORAGE_KEY = "kairo_control_premium_v1";
+
+const defaultCampanhas = [
+  { nome: "Vença", meta: 375, valor: 237 },
+  { nome: "Proteínas Nestlé", meta: 5, valor: 5 },
+  { nome: "Amor de Mãe Ninho", meta: 9, valor: 1 },
+  { nome: "Faz Bem Sua Casa", meta: 86, valor: 33 },
+  { nome: "Biscoitos Galáxia", meta: 13, valor: 8 },
+  { nome: "KitKat F1", meta: 29, valor: 22 },
+  { nome: "Mucilon", meta: 14, valor: 4 }
+];
+
+let campanhas = JSON.parse(localStorage.getItem(STORAGE_KEY)) || defaultCampanhas;
+
+function salvar() {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(campanhas));
+}
+
+function vibrar() {
+  if (navigator.vibrate) navigator.vibrate(30);
+}
+
+function render() {
+  const app = document.getElementById("app");
+  app.innerHTML = "";
+
+  campanhas.forEach((c, index) => {
+    const atingiu = c.valor >= c.meta;
+    const percentual = Math.min((c.valor / c.meta) * 100, 100);
+
+    const row = document.createElement("div");
+    row.className = "row" + (atingiu ? " done" : "");
+
+    row.innerHTML = `
+      <div class="info">
+        <div class="name">${c.nome}</div>
+        <div class="meta">${c.valor} de ${c.meta} fotos</div>
+        <div class="progress">
+          <div class="bar" style="width:${percentual}%"></div>
+        </div>
+      </div>
+
+      <div class="count">${c.valor}</div>
+
+      <div class="actions">
+        <button class="minus" onclick="sub(${index})">−</button>
+        <button class="plus" onclick="add(${index})">+</button>
+      </div>
+    `;
+
+    app.appendChild(row);
+  });
+}
+
+function add(index) {
+  campanhas[index].valor++;
+
+  if (campanhas[index].valor === campanhas[index].meta) {
+    setTimeout(() => {
+      alert("🎯 Meta atingida: " + campanhas[index].nome);
+    }, 100);
+  }
+
+  salvar();
+  vibrar();
+  render();
+}
+
+function sub(index) {
+  if (campanhas[index].valor > 0) {
+    campanhas[index].valor--;
+    salvar();
+    vibrar();
+    render();
+  }
+}
+
+render();
+</script>
+</body>
+</html>
