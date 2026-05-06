@@ -1,0 +1,1 @@
+Painel da Vida - extraia e publique o index.html. App com contas, agenda, tarefas, notas e backup local.
