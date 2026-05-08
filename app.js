@@ -1,6 +1,8 @@
-const STORAGE_KEY = "kairo-control-v3";
+const STORAGE_KEY =
+  "kairo-control-v4";
 
 const campanhasPadrao = [
+
   {
     nome:"Vença",
     meta:375,
@@ -42,11 +44,14 @@ const campanhasPadrao = [
     meta:14,
     valor:4
   }
+
 ];
 
 let campanhas =
   JSON.parse(
-    localStorage.getItem(STORAGE_KEY)
+    localStorage.getItem(
+      STORAGE_KEY
+    )
   ) || campanhasPadrao;
 
 function salvarDados(){
@@ -55,26 +60,6 @@ function salvarDados(){
     STORAGE_KEY,
     JSON.stringify(campanhas)
   );
-
-}
-
-function vibrar(tipo="normal"){
-
-  if(!navigator.vibrate) return;
-
-  if(tipo === "meta"){
-
-    navigator.vibrate([
-      80,
-      40,
-      120
-    ]);
-
-  }else{
-
-    navigator.vibrate(25);
-
-  }
 
 }
 
@@ -98,14 +83,18 @@ function salvarCampanha(){
 
   const nome =
     document
-      .getElementById("nomeCampanha")
+      .getElementById(
+        "nomeCampanha"
+      )
       .value
       .trim();
 
   const meta =
     parseInt(
       document
-        .getElementById("metaCampanha")
+        .getElementById(
+          "metaCampanha"
+        )
         .value
     );
 
@@ -120,9 +109,11 @@ function salvarCampanha(){
   }
 
   campanhas.unshift({
+
     nome,
     meta,
     valor:0
+
   });
 
   salvarDados();
@@ -132,11 +123,15 @@ function salvarCampanha(){
   fecharModal();
 
   document
-    .getElementById("nomeCampanha")
+    .getElementById(
+      "nomeCampanha"
+    )
     .value = "";
 
   document
-    .getElementById("metaCampanha")
+    .getElementById(
+      "metaCampanha"
+    )
     .value = "";
 
 }
@@ -144,28 +139,6 @@ function salvarCampanha(){
 function adicionar(index){
 
   campanhas[index].valor++;
-
-  if(
-    campanhas[index].valor
-    === campanhas[index].meta
-  ){
-
-    vibrar("meta");
-
-    setTimeout(()=>{
-
-      alert(
-        "🎯 Meta atingida: "
-        + campanhas[index].nome
-      );
-
-    },100);
-
-  }else{
-
-    vibrar();
-
-  }
 
   salvarDados();
 
@@ -180,8 +153,6 @@ function remover(index){
   ){
 
     campanhas[index].valor--;
-
-    vibrar();
 
     salvarDados();
 
@@ -253,10 +224,12 @@ function renderizar(){
           </div>
 
           <div class="meta">
+
             ${campanha.valor}
             de
             ${campanha.meta}
             fotos
+
           </div>
 
           <div class="progress">
@@ -274,7 +247,9 @@ function renderizar(){
         </div>
 
         <div class="count">
+
           ${campanha.valor}
+
         </div>
 
         <div class="actions">
@@ -299,20 +274,19 @@ function renderizar(){
 
           </button>
 
+          <button
+            class="delete"
+            onclick="
+              excluirCampanha(${index})
+            ">
+
+            ×
+
+          </button>
+
         </div>
 
       `;
-
-      row.addEventListener(
-        "contextmenu",
-        (e)=>{
-
-          e.preventDefault();
-
-          excluirCampanha(index);
-
-        }
-      );
 
       lista.appendChild(row);
 
