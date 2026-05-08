@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Kairo Control</title>
+
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+  <div class="app">
+
+    <header class="header">
+
+      <div class="badge">
+        ● ACOMPANHAMENTO PARALELO
+      </div>
+
+      <h1>Kairo Control</h1>
+
+      <p>
+        Controle rápido de fotos por campanha
+      </p>
+
+    </header>
+
+    <main class="panel">
+
+      <button
+        class="new-btn"
+        onclick="openModal()">
+
+        + Nova campanha
+
+      </button>
+
+      <div id="campaigns"></div>
+
+    </main>
+
+    <footer>
+      Dados salvos automaticamente neste aparelho
+    </footer>
+
+  </div>
+
+  <div class="modal" id="modal">
+
+    <div class="modal-box">
+
+      <div class="modal-top">
+
+        <div>
+          <h2>Nova campanha</h2>
+          <span>
+            Adicione campanhas rapidamente
+          </span>
+        </div>
+
+        <button
+          class="close-btn"
+          onclick="closeModal()">
+
+          ×
+
+        </button>
+
+      </div>
+
+      <label>
+        Nome da campanha
+      </label>
+
+      <input
+        id="campaignName"
+        placeholder="Ex: KitKat F1"
+      >
+
+      <label>
+        Meta de fotos
+      </label>
+
+      <input
+        id="campaignGoal"
+        type="number"
+        placeholder="Ex: 29"
+      >
+
+      <button
+        class="save-btn"
+        onclick="saveCampaign()">
+
+        Salvar campanha
+
+      </button>
+
+    </div>
+
+  </div>
+
+  <script src="app.js"></script>
+
+</body>
+</html>
